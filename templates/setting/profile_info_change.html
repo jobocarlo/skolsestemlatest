@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<style>
+          .title-11 {
+  font-family: Helvetica;
+  text-transform: capitalize;
+  font-size: 30px;
+  border-radius: 0.2em;
+  }
+
+.form-title1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 17px;
+  padding: 10px;
+  background-color: #90a955;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.form-title1 i {
+  margin-right: 8px;
+}
+
+</style>
+<br>
+<Br>
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1" style="color: #90a955;">Home</a> Account setting</div>
+
+<p class="title-11"><i class="fas fa-cogs"><br></i> Account Settings</p>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="form-title1" >Email & Personal Info</div>
+                <div class="container">
+                    <div class="form-group">
+                        <label>{{ form.email.label }}</label>{{ form.email }}
+                        <span class="danger">{{ form.email.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form.first_name.label }}</label>{{ form.first_name }}
+                        <span class="danger">{{ form.first_name.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form.last_name.label }}</label>{{ form.last_name }}
+                        <span class="danger">{{ form.last_name.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form.phone.label }}</label>{{ form.phone }}
+                        <span class="danger">{{ form.phone.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form.address.label }}</label>{{ form.address }}
+                        <span class="danger">{{ form.address.errors }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title1">Others</p>
+                <div class="container">
+                    <div class="form-group"><label>Profile Picture</label><br>
+                        {{ form.picture }}
+                        <span class="danger">{{ form.picture.errors }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center>
+        <button class="btn btn-outline-primary" type="submit">Save</button>
+    </center>
+</form>
+{% endblock content %}

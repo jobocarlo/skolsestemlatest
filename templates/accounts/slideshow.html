@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<html>
+<head>
+	<title>Slideshow</title>
+	<style type="text/css">
+		.slideshow {
+			position: relative;
+			max-width: 800px;
+			margin: auto;
+			height: 400px;
+			overflow: hidden;
+		}
+
+		.slideshow img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			max-height: 400px;
+		}
+
+		.prev, .next {
+			position: absolute;
+			top: 50%;
+			font-size: 30px;
+			font-weight: bold;
+			padding: 10px;
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			cursor: pointer;
+			transition: 0.6s ease;
+		}
+
+		.prev:hover, .next:hover {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		.prev {
+			left: 0;
+		}
+
+		.next {
+			right: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="slideshow">
+		<img src="https://source.unsplash.com/800x400/?nature,water" alt="Nature and Water">
+		<img src="https://source.unsplash.com/800x400/?nature,sky" alt="Nature and Sky">
+		<img src="https://source.unsplash.com/800x400/?nature,mountain" alt="Nature and Mountain">
+		<img src="https://source.unsplash.com/800x400/?nature,forest" alt="Nature and Forest">
+		<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+		<a class="next" onclick="plusSlides(1)">&#10095;</a>
+	</div>
+
+	<script type="text/javascript">
+		var slideIndex = 1;
+		showSlides(slideIndex);
+
+		function plusSlides(n) {
+			showSlides(slideIndex += n);
+		}
+
+		function showSlides(n) {
+			var i;
+			var slides = document.getElementsByTagName("img");
+			if (n > slides.length) {
+				slideIndex = 1
+			}
+			if (n < 1) {
+				slideIndex = slides.length
+			}
+			for (i = 0; i < slides.length; i++) {
+				slides[i].style.display = "none";
+			}
+			slides[slideIndex-1].style.display = "block";
+		}
+	</script>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,146 @@
+{% load static %}
+<style type="text/css">
+
+#top-navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0x;
+  -webkit-margin-start: -10px;
+  z-index: 90;
+  background: #90a955;
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #90a955;
+  color: #fff;
+}
+
+.nav-wrapper form {
+  display: flex;
+  align-items: center;
+  background-color: #90a955;
+}
+
+.nav-wrapper input[type="text"] {
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 10px;
+  width: 100%;
+
+}
+
+.nav-wrapper button[type="submit"] {
+  background-color: #c08552;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 16px 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-wrapper button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.nav-wrapper .dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+}
+.btn-secondary{
+	background-color: #c08552;
+}
+
+.fa-sign-out-alt{
+	background-color: #c08552;
+}
+.nav-wrapper .dropdown .dropdown-menu {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: -50%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 10px;
+  min-width: 160px;
+}
+
+.nav-wrapper .dropdown .dropdown-menu a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 5px 0;
+}
+
+.nav-wrapper .dropdown .dropdown-menu hr {
+  margin: 5px 0;
+}
+
+.nav-wrapper .dropdown .dropdown-item:hover {
+  background-color: #f2f2f2;
+}
+
+</style>
+
+<div id="top-navbar">
+	<div class="container">
+		<div class="nav-wrapper">
+			<img src="{% static 'img/aSSET 7.svg' %}" width="60px">
+
+			<div class="toggle-btn" onclick="toggleSidebar()">
+				<i class="fas fa-bars"></i>
+			</div>
+
+			<form class="form-header" action="{% url 'query' %}" method="GET">
+				<input class="au-input au-input--xl" type="text" name="q" value="{{ request.GET.q }}"
+					placeholder="Search All... #course, #program, #Quiz, #News, #Events" required />
+				<button class="au-btn--submit" type="submit">
+					<i class="fas fa-search"></i>
+				</button>
+			</form>
+
+			<div class="dropdown">
+				<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<img class="profile-pic" src="{{ request.user.picture.url }}">
+					{{ request.user.get_full_name|truncatechars:15 }}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<p class="container text-muted-xs text-center">
+						Last login: {{ request.user.last_login|date }}</p>
+
+					{% if request.user.is_lecturer or request.user.is_student %}
+					<a class="dropdown-item" href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>My
+						Courses</a>
+					{% endif %}
+
+					{% if request.user.is_superuser %}
+					<a class="dropdown-item" href="{% url 'admin_panel' %}"><i class="fas fa-user-tie"></i>Admin
+						Panel</a>
+					{% endif %}
+
+					<a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user"></i>Profile</a>
+					<a class="dropdown-item" href="{% url 'edit_profile' %}"><i class="fas fa-cogs"></i>Setting</a>
+					<hr>
+					<div style="display: flex; justify-content: center; align-items: center;">
+						<a class="btn btn-secondary" href="{% url 'logout' %}">
+							<i class="fas fa-sign-out-alt"></i> Signout
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

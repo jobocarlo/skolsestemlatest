@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %} My Courses | DjangoSMS{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+.table-title {
+display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: left;
+    font-weight: 400;
+    font-size: 30px;
+    padding: 10px;
+    /* background-color: #33b5e5; */
+    background: linear-gradient(40deg, #90a955, #90a955);
+    color: #fff;
+    font-family: Helvetica;
+    text-align: left;
+    margin-bottom: 15px;
+}
+.subjects {
+
+  font-family: Helvetica;
+  border: 3px solid #91BF84; /* Add a border around the box */
+  padding: 10px; /* Add some padding inside the box */
+  border-color: #91BF84;
+  background-color: #91BF84;
+  transition: 0.2s;
+  border-radius: 10px;
+}
+
+
+.subjects:hover {
+  background-color: #91BF84; /* Change the background color on hover */
+  color: #90a955; /* Change the text color on hover */
+}
+
+
+
+  .title-11 {
+  font-family: Helvetica;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 30px;
+  border-radius: 0.2em;
+  }
+
+</style>
+<br>
+<br>
+<div id="input-nav"><a href="{% url 'home' %}" style="color: #90a955;" class="primary1">Home</a> My Subjects</div>
+
+{% if request.user.is_student %}
+   <u><div class="title-11">{{ student.department.title }}</div></u>
+    {% if student.department.summary %}
+        <p>{{ student.department.summary }}</p>
+    {% endif %}
+{% endif %}
+
+{% if request.user.is_lecturer %}
+    <div class="title-1">My Courses</div>
+    <div class="title-line"></div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if request.user.is_student %}
+<div class="table-responsive p-3 mt-3">
+    <div class="table-title">SUBJECTS:</div>
+    <div class="table-shadow">
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th> SUBJECT </th>
+                    <th> SUBJECT CODE </th>
+                    <th> Cr.Hr </th>
+                    <th> Year </th>
+                    <th> Semester </th>
+                    <th> Current Semester </th>
+                    <th> Taken </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in taken_courses %}
+                <tr>
+                   <td ><a class="subjects"  href="{{ course.get_absolute_url }}" style="color: black;">
+  {{ course.course.title }}
+</a></td>
+
+                    <td>{{ course.course.code }}</td>
+                    <td>{{ course.course.credit }}</td>
+                    <td>{{ course.course.year }}</td>
+                    <td>{{ course.course.semester }}</td>
+                    <th>
+                        {% if course.course.is_current_semester == False %}
+                        <i class="fas fa-times-circle fa-1-5x danger"></i>
+                        {% else %}
+                        <i class="fas fa-check-circle"></i>
+                        {% endif %}
+                    </th>
+                    <td class="success">
+                        <i class="fas fa-check-circle"></i> Taken
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}
